@@ -1,0 +1,118 @@
+import java.util.Scanner;
+
+class Naitonokotae1 {
+     public static void main(String args[]) {
+        Scanner size = new Scanner(System.in);
+
+        //入力
+        int sizeX = size.nextInt() - 1;
+        int sizeY = size.nextInt() - 1;
+
+        int squareSize = (sizeX + 1) * (sizeY + 1);
+
+        //答えの座標
+        int ansX = 0;
+        int ansY = 0;
+
+        //開始地点
+        int X = 0;
+        int Y = 0;
+
+        //盤面登録
+        int table[][] = new int[sizeY + 1][sizeX + 1];
+        for (int p = 0; p <= sizeY; p ++) {
+            for (int q = 0; q <= sizeX; q ++) {
+                table[p][q] = 0;
+            }
+        }
+        table[Y][X] = 1;
+
+//処理部分
+        
+        //行き先検索用変数
+        int aX[] = {1, 2, 2, 1, -1, -2, -2, -1};
+        int aY[] = {-2, -1, 1, 2, 2, 1, -1, -2};
+
+        //変化量指定
+        int i[] = new int [squareSize];
+        int j = 1;
+        int judgeX = X + aX[i[j]];
+        int judgeY = Y + aY[i[j]];
+
+        i[0] = 0;
+
+        //行き先検索
+
+        while (true){
+
+            for ( ; i[j] <= 7; i[j] ++) {
+                judgeX = X + aX[i[j]];
+                judgeY = Y + aY[i[j]];
+                
+                if (judgeX >= 0 && judgeX <= sizeX && judgeY >= 0 && judgeY <= sizeY) {
+                    if (table[judgeY][judgeX] == 0) {
+                        table[judgeY][judgeX] = 1;
+
+                        X = judgeX;
+                        Y = judgeY;
+
+                        //デバッグ用部分ここから
+/*
+                        System.out.println("");
+                        
+                        System.out.print(X + " ");
+                        System.out.print(Y + " ");
+                        System.out.print(j + " ");
+                        System.out.println(i[j]);
+
+                        for (int l = 0; l <= sizeY; l ++) {
+                            String display = new String();
+                            for (int m = 0; m <= sizeX; m ++) {
+                                display += table[l][m];
+                            }
+                            System.out.println(display);
+                        }
+*/
+                        //デバッグ用部分ここまで
+
+                        j ++;
+
+                        if (j == squareSize) {
+                            break;
+                        }
+
+                        i[j] = -1;
+                    }
+                }
+            }
+
+            if (j == squareSize) {
+                break;
+            }
+            else if (j == 0) {
+                System.out.println("この型は解けません");
+                System.exit(0);
+            }
+            else {
+                j --;
+                table[Y][X] = 0;
+                X = X - aX[i[j]];
+                Y = Y - aY[i[j]];
+                i[j] ++;
+            }
+        }
+
+        System.out.println();
+
+        for (int k = 1; k < squareSize; k ++) {
+
+            ansX += aX[i[k]];
+            ansY += aY[i[k]];
+
+            System.out.print(ansX + 1);
+            System.out.print(",");
+            System.out.println(ansY + 1);
+        }
+        size.close();
+    }
+}
