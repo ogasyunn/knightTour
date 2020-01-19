@@ -7,6 +7,7 @@ class Helloworld {
       int scan = sc.nextInt();
       
       String number1 = args[0];
+      
       String number2 = args[1];
       
       System.out.println(number1 + "," + number2 + ":" + scan);
